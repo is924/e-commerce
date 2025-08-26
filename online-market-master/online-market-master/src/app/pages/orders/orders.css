@@ -1,0 +1,29 @@
+.orders-page {
+  padding: 1.5rem;
+  margin-bottom: 600px;
+}
+
+.orders-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.orders-table th,
+.orders-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.orders-table th {
+  background-color: #f2f2f2;
+}
+
+.orders-table tr:hover {
+  background-color: #ffe680;
+}

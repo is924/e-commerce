@@ -1,0 +1,84 @@
+<div class="container py-4">
+    <h3 class="mb-4">➕ Create New Product</h3>
+    <form (ngSubmit)="createProduct()" #form="ngForm" class="row g-3">
+  
+      <div class="col-md-6">
+        <label class="form-label">Product Name</label>
+        <input type="text" class="form-control" [(ngModel)]="product.productName" name="productName" required />
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Category</label>
+        <select class="form-select" [(ngModel)]="product.categoryId" name="categoryId" required>
+          <option value="" disabled selected>-- Select Category --</option>
+          <option *ngFor="let cat of categories" [value]="cat.categoryId">{{ cat.categoryName }}</option>
+        </select>
+      </div>
+  
+      <div class="col-md-6">
+        <label class="form-label">Price (₹)</label>
+        <input type="number" class="form-control" [(ngModel)]="product.price" name="price" required />
+      </div>
+  
+      <!-- <div class="col-md-6">
+        <label class="form-label">Special Price (₹)</label>
+        <input type="number" class="form-control" [(ngModel)]="product.specialPrice" name="specialPrice" />
+      </div> -->
+      <div class="col-md-6">
+        <label class="form-label">Discount</label>
+        <input type="number" class="form-control" [(ngModel)]="product.discount" name="discount" />
+      </div>
+  
+      <div class="col-md-12">
+        <label class="form-label">Description</label>
+        <textarea class="form-control" rows="3" [(ngModel)]="product.description" name="description"></textarea>
+      </div>
+  
+      <div class="col-md-12">
+        <label class="form-label">Product Image</label>
+        
+        <!-- File Upload Area -->
+        <div class="file-upload-area" 
+             (click)="fileInput.click()" 
+             (dragover)="onDragOver($event)" 
+             (dragleave)="onDragLeave($event)"
+             (drop)="onDrop($event)">
+          <div *ngIf="!imagePreview" class="upload-placeholder">
+            <i class="bi bi-cloud-upload fs-1 text-muted"></i>
+            <p class="mt-2 mb-1">Click to select or drag and drop an image</p>
+            <small class="text-muted">Supports: JPG, PNG, GIF (Max: 5MB)</small>
+          </div>
+          
+          <input 
+            #fileInput
+            type="file" 
+            class="d-none" 
+            (change)="onFileSelected($event)" 
+            accept="image/*"
+            name="productImage" />
+        </div>
+        
+        <!-- File Upload Status -->
+        <div *ngIf="fileUploadStatus" class="file-upload-status" [class.success]="fileUploadStatus.includes('successfully')" [class.error]="fileUploadStatus.includes('Please')">
+          <i *ngIf="fileUploadStatus.includes('successfully')" class="bi bi-check-circle me-1"></i>
+          <i *ngIf="fileUploadStatus.includes('Please')" class="bi bi-exclamation-triangle me-1"></i>
+          {{ fileUploadStatus }}
+        </div>
+        
+        <!-- Image Preview -->
+        <div *ngIf="imagePreview" class="image-preview-container">
+          <img [src]="imagePreview" alt="Preview" />
+          <button type="button" class="btn btn-sm btn-outline-danger mt-2" (click)="removeImage()">
+            <i class="bi bi-trash me-1"></i>Remove Image
+          </button>
+        </div>
+      </div>
+  
+      <div class="col-12">
+        <button class="btn btn-primary" [disabled]="form.invalid">
+          <i class="bi bi-check-circle me-1"></i> Create Product
+        </button>
+      </div>
+    </form>
+  </div>
+  

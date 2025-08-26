@@ -1,0 +1,35 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ecommerce
+    username: postgres
+    password: 123
+    driverClassName: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # H2 Console disabled since using PostgreSQL
+  # h2:
+  #   console:
+  #     enabled: true
+  app:
+    jwtSecret: "SsfDgU3H9uVMv3IwDO4TI2JOcfspqciO+msnO76d5tE="
+    jwtExpirationMs: 3000000
+
+logging:
+  level:
+    root: debug
+
+server:
+  servlet:
+    context-path: /api
+
+product:
+  image:
+    upload:
+      path: "src/main/resources/uploads/products/images/"

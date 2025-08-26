@@ -1,0 +1,112 @@
+<div class="container d-flex justify-content-center align-items-start min-vh-100 pt-5">
+  <div class="card shadow-lg p-4 mt-5" style="width: 100%; max-width: 500px;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">📝 Create your account</h3>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="bi bi-exclamation-triangle me-2"></i>{{ errorMessage }}
+        <button type="button" class="btn-close" (click)="clearMessages()"></button>
+      </div>
+
+      <!-- Success Message -->
+      <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="bi bi-check-circle me-2"></i>{{ successMessage }}
+        <button type="button" class="btn-close" (click)="clearMessages()"></button>
+      </div>
+
+      <form (ngSubmit)="signup()" #signupForm="ngForm">
+        <div class="mb-3">
+          <label for="username" class="form-label">Username</label>
+          <input
+            type="text"
+            id="username"
+            [(ngModel)]="username"
+            name="username"
+            class="form-control"
+            placeholder="Enter username (3-20 characters)"
+            minlength="3"
+            maxlength="20"
+            required />
+        </div>
+
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            [(ngModel)]="email"
+            name="email"
+            class="form-control"
+            placeholder="Enter email address"
+            required />
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            id="password"
+            [(ngModel)]="password"
+            name="password"
+            class="form-control"
+            placeholder="Enter password (min 6 characters)"
+            minlength="6"
+            required />
+        </div>
+
+        <div class="mb-3">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            class="form-control"
+            placeholder="Re-enter password"
+            required />
+        </div>
+
+        <div class="mb-4">
+          <label class="form-label">Account Type</label>
+          <div class="row">
+            <div class="col-12" *ngFor="let role of roles">
+              <div class="form-check mb-2">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  [id]="'role-' + role.value"
+                  name="selectedRole"
+                  [value]="role.value"
+                  [(ngModel)]="selectedRole"
+                  required />
+                <label class="form-check-label" [for]="'role-' + role.value">
+                  <strong>{{ role.label }}</strong>
+                  <br>
+                  <small class="text-muted">{{ role.description }}</small>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-grid">
+          <button 
+            type="submit" 
+            class="btn btn-success btn-lg"
+            [disabled]="loading">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm me-2" role="status"></span>
+            <i *ngIf="!loading" class="bi bi-person-plus me-2"></i>
+            {{ loading ? 'Creating Account...' : 'Create Account' }}
+          </button>
+        </div>
+      </form>
+
+      <div class="mt-4 text-center">
+        <span class="text-muted">Already have an account?</span>
+        <a routerLink="/login" class="btn btn-link p-0 ms-1">Login here</a>
+      </div>
+    </div>
+  </div>
+</div>
+  

@@ -1,0 +1,31 @@
+.reviews-page {
+ padding: 1.5rem;
+  margin-bottom: 900px;
+
+}
+
+.reviews-page h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.reviews-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+
+.reviews-table th,
+.reviews-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.revies-table th {
+  background-color: #f2f2f2;
+}
+
+.reviews-table tr:hover {
+  background-color: #ffe680;
+}
