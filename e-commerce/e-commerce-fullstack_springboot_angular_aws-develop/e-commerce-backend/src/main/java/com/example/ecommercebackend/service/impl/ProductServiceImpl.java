@@ -94,6 +94,10 @@ public class ProductServiceImpl implements ProductService {
                 (product.getDiscount() * 0.01) * product.getPrice()
         );
         product.setSpecialPrice(specialPrice);
+        // Ensure quantity is not null
+        if (product.getQuantity() == null) {
+            product.setQuantity(0);
+        }
         Product savedProduct = productRepository.save(product);
         ProductDTO dto = modelMapper.map(savedProduct, ProductDTO.class);
         // Add full image URL if image exists
@@ -166,6 +170,17 @@ public class ProductServiceImpl implements ProductService {
 
         ProductDTO dto = modelMapper.map(saved, ProductDTO.class);
         // Add full image URL if image exists
+        if (dto.getProductImage() != null && !dto.getProductImage().isEmpty() && !dto.getProductImage().startsWith("http")) {
+            dto.setProductImage("http://localhost:8080/api/images/" + dto.getProductImage());
+        }
+        return dto;
+    }
+
+    @Override
+    public ProductDTO getProductById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
+        ProductDTO dto = modelMapper.map(product, ProductDTO.class);
         if (dto.getProductImage() != null && !dto.getProductImage().isEmpty() && !dto.getProductImage().startsWith("http")) {
             dto.setProductImage("http://localhost:8080/api/images/" + dto.getProductImage());
         }
@@ -274,7 +289,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO createProductWithImage(String productName, Double price, Double discount, String description, MultipartFile image, Long categoryId) {
+    public ProductDTO createProductWithImage(String productName, Double price, Double discount, Integer quantity, String description, MultipartFile image, Long categoryId) {
         Category category = categoryRepository.findById(categoryId)
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Category with ID: %d not found", categoryId)));
         
@@ -288,6 +303,7 @@ public class ProductServiceImpl implements ProductService {
         product.setProductName(productName);
         product.setPrice(price);
         product.setDiscount(discount);
+        product.setQuantity(quantity);
         product.setDescription(description);
         product.setCategory(category);
         

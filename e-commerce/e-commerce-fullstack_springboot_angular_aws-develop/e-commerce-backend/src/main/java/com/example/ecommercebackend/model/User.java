@@ -35,6 +35,12 @@ public class User {
     @Size(max = 120)
     private String password;
 
+    // Profile image file name stored on server
+    private String profileImage;
+
+    // Whether the user account is active (allowed to log in)
+    private Boolean active = true;
+
     @Getter
     @Setter
     @ManyToMany(

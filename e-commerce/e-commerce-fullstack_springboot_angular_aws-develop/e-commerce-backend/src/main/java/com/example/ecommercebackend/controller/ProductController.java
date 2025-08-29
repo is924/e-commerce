@@ -45,15 +45,21 @@ public class ProductController {
         return ResponseEntity.status(201).body(productService.createProduct(productDTO, categoryId));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.getProductById(id));
+    }
+
     @PostMapping(value = {"/categories/{categoryId}/with-image"}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ProductDTO> createProductWithImage(
             @RequestParam("productName") String productName,
             @RequestParam("price") Double price,
             @RequestParam("discount") Double discount,
+            @RequestParam("quantity") Integer quantity,
             @RequestParam("description") String description,
             @RequestParam("image") MultipartFile image,
             @PathVariable Long categoryId) {
-        return ResponseEntity.status(201).body(productService.createProductWithImage(productName, price, discount, description, image, categoryId));
+        return ResponseEntity.status(201).body(productService.createProductWithImage(productName, price, discount, quantity, description, image, categoryId));
     }
 
     @PutMapping("/{id}")

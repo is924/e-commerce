@@ -12,6 +12,8 @@ public interface ProductService {
 
     ProductDTO updateProduct(Long id, ProductDTO productDTO);
 
+    ProductDTO getProductById(Long id);
+
     void deleteProduct(Long id);
 
     ProductResponse fetchProductsByCategory(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder, Long categoryId);
@@ -20,7 +22,7 @@ public interface ProductService {
 
     ProductDTO updateProductImage(Long productId, MultipartFile productImage);
     
-    ProductDTO createProductWithImage(String productName, Double price, Double discount, String description, MultipartFile image, Long categoryId);
+    ProductDTO createProductWithImage(String productName, Double price, Double discount, Integer quantity, String description, MultipartFile image, Long categoryId);
     
     ProductResponse fetchMyProducts(Integer pageNumber, Integer pageSize, String sortBy, String sortOrder);
 }

@@ -78,7 +78,7 @@ public class WebSecurityConfig {
                                         .requestMatchers("/auth/**").permitAll()
                                         .requestMatchers("/v3/api-docs/**").permitAll()
                                         .requestMatchers("/swagger-ui/**").permitAll()
-                                        .requestMatchers("/images/**").permitAll()
+                                        .requestMatchers("/images/**", "/api/images/**").permitAll()
                                         .anyRequest().authenticated()
                 );
         http.headers(headers ->

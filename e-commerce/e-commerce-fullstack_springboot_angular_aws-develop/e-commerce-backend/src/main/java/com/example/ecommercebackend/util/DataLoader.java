@@ -91,6 +91,7 @@ public class DataLoader {
 
             userRepository.findByUserName("admin").ifPresent(admin -> {
                 admin.setRoles(adminRoles);
+                admin.setActive(true); // ensure admin is always active
                 userRepository.save(admin);
             });
 

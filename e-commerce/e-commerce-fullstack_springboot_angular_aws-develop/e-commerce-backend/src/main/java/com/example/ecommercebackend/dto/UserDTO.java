@@ -24,6 +24,8 @@ public class UserDTO {
     private String userName;
     private String email;
     private String password;
+    private String profileImage;
+    private Boolean active;
     private Set<Role> roles = new HashSet<>();
     private Set<Product> products;
     private List<Address> addresses = new ArrayList<>();

@@ -54,9 +54,18 @@ public class AuthController {
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         } catch (AuthenticationException exception) {
             Map<String, Object> map = new HashMap<>();
-            map.put("message", "Bad credentials");
+            String message = "Bad credentials";
+            // Provide clearer messages for disabled/locked/not-found
+            if (exception instanceof org.springframework.security.authentication.DisabledException) {
+                message = "Account disabled. Please contact support.";
+            } else if (exception instanceof org.springframework.security.authentication.LockedException) {
+                message = "Account locked. Please contact support.";
+            } else if (exception instanceof org.springframework.security.core.userdetails.UsernameNotFoundException) {
+                message = "User not found.";
+            }
+            map.put("message", message);
             map.put("status", false);
-            return new ResponseEntity<Object>(map, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(map, HttpStatus.UNAUTHORIZED);
         }
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
