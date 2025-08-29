@@ -24,6 +24,7 @@ export class ProductCreateComponent {
     productImage: '',
     categoryId: '',
     discount: null,
+    quantity: null,
   };
 
   selectedFile: File | null = null;
@@ -118,6 +119,7 @@ export class ProductCreateComponent {
       formData.append('productName', this.product.productName);
       formData.append('price', this.product.price.toString());
       formData.append('discount', this.product.discount.toString());
+      formData.append('quantity', this.product.quantity?.toString() || '0');
       formData.append('description', this.product.description);
       formData.append('image', this.selectedFile);
 

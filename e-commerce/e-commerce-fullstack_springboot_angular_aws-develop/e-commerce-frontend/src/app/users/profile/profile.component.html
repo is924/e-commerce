@@ -24,6 +24,14 @@
             </div>
         </div>
 
+        <div class="col-md-6">
+            <label class="form-label">Avatar</label>
+            <div class="d-flex align-items-center gap-3">
+                <img [src]="user.profileImage || 'https://via.placeholder.com/80'" width="80" height="80" class="rounded-circle" />
+                <input type="file" class="form-control" (change)="onAvatarSelected($event)" />
+            </div>
+        </div>
+
         <div class="col-12">
             <button type="submit" class="btn btn-primary">
                 <i class="bi bi-save me-2"></i> Update Profile

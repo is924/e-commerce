@@ -25,9 +25,19 @@ export class ProductManageComponent implements OnInit {
   totalPages = 1;
   pageSizeOptions = [2, 4, 6, 12]; // You can adjust these
 
+  // If true, admin will see all products; non-admins will see only their own
+  isAdmin: boolean = false;
+
   ngOnInit(): void {
     this.loading = false;
+    this.detectAdminRole();
     this.fetchMyProducts();
+  }
+
+  private detectAdminRole() {
+    const stored = localStorage.getItem('roles');
+    const roles: string[] = stored ? JSON.parse(stored) : [];
+    this.isAdmin = roles.includes('ROLE_ADMIN');
   }
 
   fetchMyProducts() {
@@ -39,14 +49,18 @@ export class ProductManageComponent implements OnInit {
       sortOrder: 'asc'
     };
 
-    this.productService.getMyProducts(params).subscribe({
+    const request$ = this.isAdmin
+      ? this.productService.getAll(params)
+      : this.productService.getMyProducts(params);
+
+    request$.subscribe({
       next: (res: any) => {
         this.products = res.content || res;
         this.totalPages = res.totalPages || 1;
         this.loading = false;
       },
       error: () => {
-        this.error = 'Failed to load your products';
+        this.error = this.isAdmin ? 'Failed to load products' : 'Failed to load your products';
         this.loading = false;
       }
     });

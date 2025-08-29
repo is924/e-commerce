@@ -13,6 +13,10 @@ export class ProductService {
     return this.http.get(this.baseUrl, { params });
   }
 
+  getById(productId: number) {
+    return this.http.get(`${this.baseUrl}/${productId}`);
+  }
+
   create(product: any, categoryId: number) {
     return this.http.post(`${this.baseUrl}/categories/${categoryId}`, product);
   }
@@ -27,6 +31,12 @@ export class ProductService {
 
   update(productId: number, product: any) {
     return this.http.put(`${this.baseUrl}/${productId}`, product);
+  }
+
+  updateImage(productId: number, image: File) {
+    const form = new FormData();
+    form.append('image', image);
+    return this.http.put(`${this.baseUrl}/${productId}/image`, form);
   }
 
   search(keyword: string, params: any) {

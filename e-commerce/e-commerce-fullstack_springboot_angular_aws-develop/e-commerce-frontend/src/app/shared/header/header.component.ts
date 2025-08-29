@@ -90,6 +90,8 @@ export class HeaderComponent {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
+    localStorage.removeItem('roles');
+    localStorage.removeItem('userId');
     this.router.navigate(['/login']);
     window.location.reload();
   }

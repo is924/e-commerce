@@ -3,7 +3,7 @@
     
     <!-- 🛍️ Brand Logo -->
     <a class="navbar-brand d-flex align-items-center gap-2" routerLink="/">
-      <img src="https://cdn-icons-png.freepik.com/512/869/869636.png" alt="logo" width="34" height="34" />
+      
       <span class="fw-bold fs-4 text-primary">Online Market Place</span>
     </a>
 
@@ -29,8 +29,8 @@
       <!-- Right Actions -->
       <ul class="navbar-nav ms-auto align-items-center gap-3">
 
-        <!-- 🛒 Cart & 📦 Orders (Aligned & Consistent) -->
-<li *ngIf="!isAuthPage()" class="nav-item d-flex align-items-center gap-2">
+        <!-- 🛒 Cart & 📦 Orders (hide for admin/seller) -->
+<li *ngIf="!isAuthPage() && !hasAdminOrSellerRole()" class="nav-item d-flex align-items-center gap-2">
 
   <!-- Cart -->
   <a routerLink="/cart"
@@ -65,6 +65,7 @@
           <ul class="dropdown-menu shadow-sm">
             <li><a class="dropdown-item" routerLink="/products/create">➕ Create Product</a></li>
             <li><a class="dropdown-item" routerLink="/products/manage">🛠️ Manage Products</a></li>
+            <li><a class="dropdown-item" routerLink="/admin/users">👥 Users</a></li>
           </ul>
         </li>
 

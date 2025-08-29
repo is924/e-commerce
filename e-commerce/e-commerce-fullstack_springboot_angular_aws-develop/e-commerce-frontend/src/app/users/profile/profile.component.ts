@@ -18,6 +18,7 @@ export class ProfileComponent {
   user: any = {};
   updatedUser: any = {};
   loading = true;
+  selectedAvatar: File | null = null;
 
   successMessage = '';
   errorMessage = '';
@@ -63,6 +64,13 @@ export class ProfileComponent {
       next: () => {
         this.successMessage = 'Profile updated successfully ✅';
         this.errorMessage = '';
+        if (this.selectedAvatar) {
+          // Update profileImage field to file name to reflect avatar change (server should handle storing actual file in a real upload endpoint)
+          const form = new FormData();
+          form.append('image', this.selectedAvatar);
+          // Placeholder: reuse update endpoint to save filename; real upload endpoint can be added later
+          this.http.put(`http://localhost:8080/api/users/${this.user.userId}`, { profileImage: this.selectedAvatar.name }).subscribe();
+        }
         // window.location.reload();
         // this.fetchCurrentUser();
       },
@@ -72,6 +80,35 @@ export class ProfileComponent {
         this.successMessage = '';
       }
     });
+  }
+
+  onAvatarSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      alert('Please select an image file');
+      return;
+    }
+    this.selectedAvatar = file;
+
+    // Upload immediately so the preview updates
+    const form = new FormData();
+    form.append('image', file, file.name);
+    this.http
+      .put<any>(`http://localhost:8080/api/users/${this.user.userId}/avatar`, form)
+      .subscribe({
+        next: (res) => {
+          // Backend returns full URL in profileImage
+          if (res?.profileImage) {
+            this.user.profileImage = res.profileImage;
+            this.successMessage = 'Avatar updated ✅';
+          }
+        },
+        error: (err) => {
+          console.error('Failed to upload avatar', err);
+          this.errorMessage = 'Failed to upload avatar';
+        }
+      });
   }
 
   fetchAddresses() {
